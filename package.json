@@ -1,0 +1,44 @@
+{
+	"name": "vscode-tweet-code",
+	"displayName": "Tweet Code",
+	"description": "Share code snippets on Twitter directly from VSCode",
+	"version": "1.0.0",
+	"publisher": "your-publisher-name",
+	"license": "MIT",
+	"engines": {
+	  "vscode": "^1.80.0",
+	  "node": ">=18"
+	},
+	"main": "./dist/extension.js",
+	"contributes": {
+	  "commands": [{
+		"command": "tweet-code.share",
+		"title": "Share Code on Twitter"
+	  }],
+	  "menus": {
+		"editor/context": [{
+		  "command": "tweet-code.share",
+		  "when": "editorHasSelection",
+		  "group": "9_cutcopypaste"
+		}]
+	  }
+	},
+	"scripts": {
+	  "clean": "rm -rf dist",
+	  "dev": "bun run clean && bun run src/build.ts --watch",
+	  "build": "bun run clean && bun run src/build.ts",
+	  "package": "vsce package"
+	},
+	"dependencies": {
+	  "react": "^18.2.0",
+	  "react-dom": "^18.2.0"
+	},
+	"devDependencies": {
+	  "@types/react": "^18.2.0",
+	  "@types/react-dom": "^18.2.0",
+	  "@types/vscode": "^1.80.0",
+	  "@vscode/vsce": "^2.15.0",
+	  "bun-types": "latest",
+	  "tailwindcss": "^3.4.0"
+	}
+  }
