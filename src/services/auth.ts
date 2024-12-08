@@ -1,20 +1,23 @@
 import * as vscode from 'vscode';
+import { TwitterCredentials } from '../types';
 
-export class AuthenticationService {
-	private static readonly TWITTER_AUTH_PROVIDER = 'twitter';
-	private static readonly REQUIRED_SCOPES = ['tweet.write'];
+const STORAGE_KEY = 'twitter-credentials';
 
-	static async getTwitterToken(): Promise<string> {
-		const session = await vscode.authentication.getSession(
-			this.TWITTER_AUTH_PROVIDER,
-			this.REQUIRED_SCOPES,
-			{ createIfNone: true }
-		);
+export const authService = {
+	async getCredentials(
+		context: vscode.ExtensionContext
+	): Promise<TwitterCredentials | undefined> {
+		return context.globalState.get<TwitterCredentials>(STORAGE_KEY);
+	},
 
-		if (!session) {
-			throw new Error('Failed to authenticate with Twitter');
-		}
+	async saveCredentials(
+		context: vscode.ExtensionContext,
+		credentials: TwitterCredentials
+	): Promise<void> {
+		await context.globalState.update(STORAGE_KEY, credentials);
+	},
 
-		return session.accessToken;
+	async clearCredentials(context: vscode.ExtensionContext): Promise<void> {
+		await context.globalState.update(STORAGE_KEY, undefined);
 	}
-}
+};
