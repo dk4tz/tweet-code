@@ -1,10 +1,11 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import type { WebviewApi } from 'vscode-webview';
-import { TwitterCredentials } from '../types';
+
 import { App } from './App';
 import { VSCodeProvider } from './contexts/vscode';
 import './styles.css';
+import { TwitterCredentials } from './types';
 
 declare function acquireVsCodeApi(): WebviewApi<unknown>;
 

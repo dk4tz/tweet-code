@@ -1,6 +1,7 @@
-import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as path from 'path';
+import * as vscode from 'vscode';
+
 import { TwitterCredentials } from '../types';
 
 const CREDENTIALS_FILENAME = '.twitter-credentials';

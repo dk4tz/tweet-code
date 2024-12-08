@@ -2,10 +2,11 @@ import React, {
 	createContext,
 	useCallback,
 	useContext,
-	useState,
-	useEffect
+	useEffect,
+	useState
 } from 'react';
-import { TwitterCredentials } from '../../types';
+
+import { TwitterCredentials } from '../types';
 
 interface VSCodeState {
 	error: string | null;

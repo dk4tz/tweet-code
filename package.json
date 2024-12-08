@@ -1,9 +1,13 @@
 {
 	"name": "vscode-tweet-code",
 	"displayName": "Tweet Code",
-	"description": "Tweet Highlights from VSCode",
+	"description": "Share code snippets to X/Twitter directly from VS Code",
 	"version": "1.0.0",
 	"publisher": "DK4TZ",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/dk4tz/tweet-code"
+	},
 	"license": "MIT",
 	"engines": {
 		"vscode": "^1.80.0",
@@ -14,7 +18,7 @@
 		"commands": [
 			{
 				"command": "tweet-code.share",
-				"title": "Tweet, Tweet!"
+				"title": "Tweet Selection"
 			}
 		],
 		"menus": {
@@ -30,7 +34,7 @@
 	"scripts": {
 		"clean": "rm -rf dist",
 		"dev": "bun run clean && NODE_OPTIONS='--no-inspect' bun --watch run ./build.ts ",
-		"build": "bun run clean && bun run ./build.ts",
+		"build": "bun run clean && NODE_OPTIONS='--no-inspect' bun run ./build.ts",
 		"package": "vsce package"
 	},
 	"dependencies": {

@@ -1,30 +1,28 @@
 {
 	"compilerOptions": {
-		// Modern JavaScript and React support
+		// Modern JavaScript and React
 		"target": "ES2022",
 		"lib": ["ES2022", "DOM", "DOM.Iterable"],
 		"jsx": "react",
 
-		// Module settings
+		// CommonJS Module for VSCode Extension
 		"module": "CommonJS",
 		"resolveJsonModule": true,
 
-		// Type checking
+		// Type Checking
 		"strict": true,
 		"noUnusedLocals": true,
 		"noUnusedParameters": true,
 		"noImplicitReturns": true,
 		"noFallthroughCasesInSwitch": true,
 
-		// Build and Debug settings
+		// Build and Debug
 		"sourceMap": true,
-		"inlineSourceMap": false,
-		"inlineSources": false,
 		"mapRoot": "${workspaceFolder}/src",
 		"outDir": "./dist",
 		"declaration": true,
 
-		// JavaScript/TypeScript interop
+		// JavaScript/TypeScript Interop
 		"isolatedModules": true,
 		"esModuleInterop": true,
 		"forceConsistentCasingInFileNames": true,

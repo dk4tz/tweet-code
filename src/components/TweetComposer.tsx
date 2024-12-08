@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
-import { TwitterCredentials } from '../../types';
+import React, { useEffect, useState } from 'react';
+
 import { useVSCode } from '../contexts/vscode';
+import { TwitterCredentials } from '../types';
 
 interface Props {
 	code: string;
@@ -18,11 +19,25 @@ export const TweetComposer: React.FC<Props> = ({
 		credentials,
 		isConnected,
 		setError,
-		setIsPosting
+		setIsPosting,
+		setCredentials
 	} = useVSCode();
 	const [text, setText] = useState(code);
 
 	const CHAR_CEILING = 25000;
+
+	// Load credentials on mount
+	useEffect(() => {
+		const loadInitialCredentials = () => {
+			if (initialCredentials) {
+				setCredentials(initialCredentials);
+			} else {
+				handleLoadCredentials();
+			}
+		};
+
+		loadInitialCredentials();
+	}, [initialCredentials, setCredentials]);
 
 	const isValid =
 		text.trim().length > 0 && text.length <= CHAR_CEILING && isConnected;
@@ -48,6 +63,13 @@ export const TweetComposer: React.FC<Props> = ({
 		setError(null);
 		postMessage({ command: 'loadCredentials' });
 	};
+
+	useEffect(() => {
+		const hasCredentials = Object.values(credentials).some((val) => val);
+		if (!hasCredentials) {
+			setError(null);
+		}
+	}, [credentials, setError]);
 
 	return (
 		<div className='space-y-4'>

@@ -19,7 +19,7 @@ async function build() {
 
 	// Webview build configuration
 	const webviewConfig: BuildConfig = {
-		entrypoints: ['./src/webview/index.tsx'],
+		entrypoints: ['./src/index.tsx'],
 		outdir: './dist',
 		target: 'browser',
 		splitting: false,
@@ -50,7 +50,7 @@ async function build() {
 			[
 				'tailwindcss',
 				'-i',
-				'./src/webview/styles.css',
+				'./src/styles.css',
 				'-o',
 				'./dist/styles.css'
 			],

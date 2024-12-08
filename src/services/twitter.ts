@@ -1,9 +1,11 @@
+import axios from 'axios';
 import crypto from 'crypto';
 import OAuth from 'oauth-1.0a';
-import axios from 'axios';
+
 import { TwitterCredentials, TwitterSuccess } from '../types';
 
 const createOAuthInstance = (credentials: TwitterCredentials): OAuth => {
+	// https://developer.x.com/en/docs/authentication/oauth-1-0a
 	// OAuth consumer should use the API key (consumer key) from X developer app
 	const consumer = {
 		key: credentials.consumerKey,

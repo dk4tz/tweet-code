@@ -1,8 +1,9 @@
 import * as vscode from 'vscode';
+
 import { credentialsService } from './services/credentials';
 import { twitterService } from './services/twitter';
 import { TwitterAPIError } from './types';
-import { getWebviewHtml } from './webview/template';
+import { getWebviewHtml } from './webview';
 
 export async function activate(context: vscode.ExtensionContext) {
 	const disposable = vscode.commands.registerCommand(
@@ -40,7 +41,7 @@ export async function activate(context: vscode.ExtensionContext) {
 									);
 									panel.dispose();
 									await vscode.window.showInformationMessage(
-										'Tweet posted successfully!'
+										'Tweet, tweet!'
 									);
 								} catch (error: unknown) {
 									let errorMessage = 'Failed to post tweet';
@@ -51,10 +52,10 @@ export async function activate(context: vscode.ExtensionContext) {
 										const apiError =
 											error as TwitterAPIError;
 										if (
-											apiError.response?.body?.errors?.[0]
+											apiError.response?.data?.errors?.[0]
 										) {
 											errorMessage =
-												apiError.response.body.errors[0]
+												apiError.response.data.errors[0]
 													.message;
 										}
 									}

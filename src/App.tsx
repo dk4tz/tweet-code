@@ -1,6 +1,7 @@
 import React from 'react';
-import { TwitterCredentials } from '../types';
-import { TweetComposer } from './pages/TweetComposer';
+
+import { TweetComposer } from './components/TweetComposer';
+import { TwitterCredentials } from './types';
 
 interface AppProps {
 	code: string;

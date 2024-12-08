@@ -1,71 +1,63 @@
-# tweet-code README
+# Tweet Code
 
-This is the README for your extension "tweet-code". After writing up a brief description, we recommend including the following sections.
+Share code snippets directly to Twitter/X from VS Code.
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+-   Share selected code with a right-click
+-   Preview and edit tweets before posting
+-   Dark mode support
+-   Character count validation
+-   Secure credential management
 
-For example if there is an image subfolder under your extension project workspace:
+## Prerequisites
 
-\!\[feature X\]\(images/feature-x.png\)
+You need an X (formerly Twitter) developer account and OAuth 1.0 credentials to use this extension [(docs)](https://developer.x.com/en/docs/authentication/oauth-1-0a)
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+1. Create a developer account
+2. Create an app
+3. Generate consumer keys and access tokens
 
-## Requirements
+## Setup
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+1. ~~Install the extension from the VS Code marketplace~~ (almost there!)
+2. Right-click on any code selection and choose "Tweet Selection"
+3. Click "Disconnected" to create a `.twitter-credentials` file
+4. Add your X API credentials to the file:
 
-## Extension Settings
+```json
+{
+	"consumerKey": "your-consumer-key",
+	"consumerSecret": "your-consumer-secret",
+	"accessToken": "your-access-token",
+	"accessSecret": "your-access-secret"
+}
+```
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+Alternative: Clone this repository and run the following commands:
 
-For example:
+1. `cd tweet-code`
+2. `bun install`
+3. `chmod +x scripts/publish-local.sh `
+4. `./scripts/publish-local.sh`
 
-This extension contributes the following settings:
+## Usage
 
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
+1. Select code in your editor
+2. Right-click and choose "Tweet Selection"
+3. Edit your tweet if needed
+4. Click "Post Tweet"
 
-## Known Issues
+Alternative: Use the command palette (`Cmd/Ctrl + Shift + P`) and search for "Tweet Code: Share"
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+## Security Note
 
-## Release Notes
+Your X credentials are stored locally in your workspace. Never commit the `.twitter-credentials` file to version control.
 
-Users appreciate release notes as you update your extension.
+## Contributing
 
-### 1.0.0
+Pull requests are welcome! I made this extension for personal consumption, so issues will be considered without SLA.
 
-Initial release of ...
+## License
 
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
----
-
-## Following extension guidelines
-
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
-
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
-
-## Working with Markdown
-
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
-
-## For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+MIT
