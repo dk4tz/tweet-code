@@ -1,44 +1,52 @@
 {
 	"name": "vscode-tweet-code",
 	"displayName": "Tweet Code",
-	"description": "Share code snippets on Twitter directly from VSCode",
+	"description": "Tweet Highlights from VSCode",
 	"version": "1.0.0",
-	"publisher": "your-publisher-name",
+	"publisher": "DK4TZ",
 	"license": "MIT",
 	"engines": {
-	  "vscode": "^1.80.0",
-	  "node": ">=18"
+		"vscode": "^1.80.0",
+		"node": ">=18"
 	},
 	"main": "./dist/extension.js",
 	"contributes": {
-	  "commands": [{
-		"command": "tweet-code.share",
-		"title": "Share Code on Twitter"
-	  }],
-	  "menus": {
-		"editor/context": [{
-		  "command": "tweet-code.share",
-		  "when": "editorHasSelection",
-		  "group": "9_cutcopypaste"
-		}]
-	  }
+		"commands": [
+			{
+				"command": "tweet-code.share",
+				"title": "Tweet, Tweet!"
+			}
+		],
+		"menus": {
+			"editor/context": [
+				{
+					"command": "tweet-code.share",
+					"when": "editorHasSelection",
+					"group": "9_cutcopypaste"
+				}
+			]
+		}
 	},
 	"scripts": {
-	  "clean": "rm -rf dist",
-	  "dev": "bun run clean && bun run src/build.ts --watch",
-	  "build": "bun run clean && bun run src/build.ts",
-	  "package": "vsce package"
+		"clean": "rm -rf dist",
+		"dev": "bun run clean && NODE_OPTIONS='--no-inspect' bun --watch run ./build.ts ",
+		"build": "bun run clean && bun run ./build.ts",
+		"package": "vsce package"
 	},
 	"dependencies": {
-	  "react": "^18.2.0",
-	  "react-dom": "^18.2.0"
+		"axios": "^1.7.9",
+		"oauth-1.0a": "^2.2.6",
+		"react": "^18.2.0",
+		"react-dom": "^18.2.0"
 	},
 	"devDependencies": {
-	  "@types/react": "^18.2.0",
-	  "@types/react-dom": "^18.2.0",
-	  "@types/vscode": "^1.80.0",
-	  "@vscode/vsce": "^2.15.0",
-	  "bun-types": "latest",
-	  "tailwindcss": "^3.4.0"
+		"@types/axios": "^0.14.4",
+		"@types/react": "^18.2.0",
+		"@types/react-dom": "^18.2.0",
+		"@types/vscode": "^1.80.0",
+		"@types/vscode-webview": "^1.57.5",
+		"@vscode/vsce": "^2.15.0",
+		"bun-types": "latest",
+		"tailwindcss": "^3.4.0"
 	}
-  }
+}

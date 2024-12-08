@@ -5,12 +5,21 @@
 			"name": "Extension",
 			"type": "extensionHost",
 			"request": "launch",
+			"preLaunchTask": "bun: dev",
+			"runtimeExecutable": "${execPath}",
 			"args": [
-				"--disable-extensions",
-				"--extensionDevelopmentPath=${workspaceFolder}"
+				"--extensionDevelopmentPath=${workspaceFolder}",
+				"--disable-extensions"
 			],
-			"outFiles": ["${workspaceFolder}/dist/**/*.js"],
-			"preLaunchTask": "bun: dev"
+			"outFiles": [
+				"${workspaceFolder}/dist/extension.js",
+				"${workspaceFolder}/dist/webview.js"
+			],
+			"sourceMaps": true,
+			"resolveSourceMapLocations": [
+				"${workspaceFolder}/dist/extension.js.map",
+				"${workspaceFolder}/dist/webview.js.map"
+			]
 		}
 	]
 }

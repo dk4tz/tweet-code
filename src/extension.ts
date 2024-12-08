@@ -46,10 +46,10 @@ export async function activate(context: vscode.ExtensionContext) {
 									context,
 									message.credentials
 								);
-								await vscode.window.showInformationMessage(
-									'Tweet posted successfully!'
-								);
 								panel.dispose();
+								await vscode.window.showInformationMessage(
+									'Tweet Tweet!'
+								);
 								break;
 
 							case 'cancel':

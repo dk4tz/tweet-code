@@ -1,4 +1,4 @@
-import type { Response } from 'got';
+import { AxiosResponse } from 'axios';
 
 export interface TwitterCredentials {
 	consumerKey: string;
@@ -22,5 +22,5 @@ export interface TwitterError {
 }
 
 export type TwitterAPIError = Error & {
-	response: Response<TwitterError>;
+	response: AxiosResponse<TwitterError>;
 };

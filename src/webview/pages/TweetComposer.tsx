@@ -1,46 +1,32 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { TwitterCredentials } from '../../types';
+import { useVSCode } from '../contexts/vscode';
 
 interface Props {
 	code: string;
 	initialCredentials?: TwitterCredentials;
 }
 
-interface ErrorMessage {
-	type: 'error';
-	message: string;
-}
-
 export const TweetComposer: React.FC<Props> = ({
 	code,
 	initialCredentials
 }) => {
+	const { postMessage, error, isPosting, setError, setIsPosting } =
+		useVSCode();
 	const [text, setText] = useState(code);
 	const [credentials, setCredentials] = useState<Partial<TwitterCredentials>>(
 		initialCredentials || {}
 	);
-	const [isPosting, setIsPosting] = useState(false);
-	const [error, setError] = useState<string | null>(null);
+
+	const CHAR_CEILING = 25000;
 
 	const isValid =
 		text.trim().length > 0 &&
-		text.length <= 280 &&
+		text.length <= CHAR_CEILING &&
 		credentials.consumerKey?.trim() &&
 		credentials.consumerSecret?.trim() &&
 		credentials.accessToken?.trim() &&
 		credentials.accessSecret?.trim();
-
-	useEffect(() => {
-		const handleMessage = (event: MessageEvent<ErrorMessage>) => {
-			if (event.data.type === 'error') {
-				setError(event.data.message);
-				setIsPosting(false);
-			}
-		};
-
-		window.addEventListener('message', handleMessage);
-		return () => window.removeEventListener('message', handleMessage);
-	}, []);
 
 	const handleSubmit = () => {
 		if (!isValid || isPosting) return;
@@ -48,11 +34,15 @@ export const TweetComposer: React.FC<Props> = ({
 		setIsPosting(true);
 		setError(null);
 
-		window.vscode?.postMessage({
+		postMessage({
 			command: 'tweet',
 			text,
 			credentials
 		});
+	};
+
+	const handleCancel = () => {
+		postMessage({ command: 'cancel' });
 	};
 
 	return (
@@ -63,7 +53,7 @@ export const TweetComposer: React.FC<Props> = ({
 						Code Preview
 					</h2>
 				</div>
-				<pre className='p-4 text-sm text-neutral-200 font-mono overflow-auto'>
+				<pre className='p-4 text-sm text-neutral-200 font-mono text-wrap overflow-auto'>
 					{code}
 				</pre>
 			</div>
@@ -175,12 +165,12 @@ export const TweetComposer: React.FC<Props> = ({
 				/>
 				<div
 					className={`text-sm ${
-						text.length > 280
+						text.length > CHAR_CEILING
 							? 'text-red-500'
 							: 'text-neutral-500 dark:text-neutral-400'
 					}`}
 				>
-					{280 - text.length} characters remaining
+					{CHAR_CEILING - text.length} characters remaining
 				</div>
 			</div>
 
@@ -192,9 +182,7 @@ export const TweetComposer: React.FC<Props> = ({
 
 			<div className='flex justify-end gap-3'>
 				<button
-					onClick={() =>
-						window.vscode?.postMessage({ command: 'cancel' })
-					}
+					onClick={handleCancel}
 					disabled={isPosting}
 					className='px-4 py-2 rounded-md bg-neutral-200 dark:bg-neutral-700 
                    text-neutral-700 dark:text-neutral-300

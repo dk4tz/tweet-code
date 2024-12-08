@@ -1,37 +1,35 @@
 {
 	"compilerOptions": {
-		/* Language and Environment */
+		// Modern JavaScript and React support
 		"target": "ES2022",
 		"lib": ["ES2022", "DOM", "DOM.Iterable"],
 		"jsx": "react",
 
-		/* Modules */
+		// Module settings
 		"module": "CommonJS",
-		"moduleResolution": "bundler",
 		"resolveJsonModule": true,
 
-		/* Type Checking */
+		// Type checking
 		"strict": true,
-		"noImplicitAny": true,
-		"strictNullChecks": true,
-		"strictFunctionTypes": true,
-		"strictBindCallApply": true,
-		"strictPropertyInitialization": true,
-		"noImplicitThis": true,
-		"useUnknownInCatchVariables": true,
 		"noUnusedLocals": true,
 		"noUnusedParameters": true,
 		"noImplicitReturns": true,
 		"noFallthroughCasesInSwitch": true,
 
-		/* Interop Constraints */
+		// Build and Debug settings
+		"sourceMap": true,
+		"inlineSourceMap": false,
+		"inlineSources": false,
+		"mapRoot": "${workspaceFolder}/src",
+		"outDir": "./dist",
+		"declaration": true,
+
+		// JavaScript/TypeScript interop
 		"isolatedModules": true,
 		"esModuleInterop": true,
 		"forceConsistentCasingInFileNames": true,
-
-		/* Completeness */
 		"skipLibCheck": true
 	},
-	"include": ["src"],
+	"include": ["src", "build.ts"],
 	"exclude": ["node_modules", "dist"]
 }
