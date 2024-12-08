@@ -4,7 +4,7 @@ import axios from 'axios';
 import { TwitterCredentials, TwitterSuccess } from '../types';
 
 const createOAuthInstance = (credentials: TwitterCredentials): OAuth => {
-	// OAuth consumer should use the API key (consumer key) from your developer app
+	// OAuth consumer should use the API key (consumer key) from X developer app
 	const consumer = {
 		key: credentials.consumerKey,
 		secret: credentials.consumerSecret
@@ -25,7 +25,7 @@ export const postTweet = async (
 	const oauth = createOAuthInstance(credentials);
 	const endpointURL = 'https://api.twitter.com/2/tweets';
 
-	// Access token credentials for the user making the request
+	// Access token credentials for the user / account making the request
 	const token = {
 		key: credentials.accessToken,
 		secret: credentials.accessSecret

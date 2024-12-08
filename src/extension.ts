@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import { authService } from './services/auth';
+import { credentialsService } from './services/credentials';
 import { twitterService } from './services/twitter';
 import { TwitterAPIError } from './types';
 import { getWebviewHtml } from './webview/template';
@@ -19,7 +19,6 @@ export async function activate(context: vscode.ExtensionContext) {
 					throw new Error('Please select code to share');
 				}
 
-				const credentials = await authService.getCredentials(context);
 				const panel = vscode.window.createWebviewPanel(
 					'tweetPreview',
 					'Tweet Code',
@@ -27,29 +26,67 @@ export async function activate(context: vscode.ExtensionContext) {
 					{ enableScripts: true }
 				);
 
-				panel.webview.html = getWebviewHtml(
-					panel,
-					context,
-					code,
-					credentials
-				);
+				// Initial HTML without credentials
+				panel.webview.html = getWebviewHtml(panel, context, code);
 
 				panel.webview.onDidReceiveMessage(async (message) => {
 					try {
 						switch (message.command) {
 							case 'tweet':
-								await twitterService.postTweet(
-									message.credentials,
-									message.text
-								);
-								await authService.saveCredentials(
-									context,
-									message.credentials
-								);
-								panel.dispose();
-								await vscode.window.showInformationMessage(
-									'Tweet Tweet!'
-								);
+								try {
+									await twitterService.postTweet(
+										message.credentials,
+										message.text
+									);
+									panel.dispose();
+									await vscode.window.showInformationMessage(
+										'Tweet posted successfully!'
+									);
+								} catch (error: unknown) {
+									let errorMessage = 'Failed to post tweet';
+
+									if (error instanceof Error) {
+										errorMessage = error.message;
+
+										const apiError =
+											error as TwitterAPIError;
+										if (
+											apiError.response?.body?.errors?.[0]
+										) {
+											errorMessage =
+												apiError.response.body.errors[0]
+													.message;
+										}
+									}
+
+									panel.webview.postMessage({
+										type: 'error',
+										message: errorMessage
+									});
+								}
+								break;
+
+							case 'loadCredentials':
+								const loadedCredentials =
+									credentialsService.load();
+								if (!loadedCredentials) {
+									if (vscode.workspace.workspaceFolders) {
+										credentialsService.createTemplate(
+											vscode.workspace.workspaceFolders[0]
+												.uri.fsPath
+										);
+										throw new Error(
+											'Please fill in your Twitter credentials in the newly created .twitter-credentials file'
+										);
+									}
+									throw new Error(
+										'No workspace folder found to create credentials file'
+									);
+								}
+								panel.webview.postMessage({
+									type: 'credentials',
+									credentials: loadedCredentials
+								});
 								break;
 
 							case 'cancel':
@@ -57,16 +94,10 @@ export async function activate(context: vscode.ExtensionContext) {
 								break;
 						}
 					} catch (error: unknown) {
-						let errorMessage = 'Failed to post tweet';
+						let errorMessage = 'Failed to complete operation';
 
 						if (error instanceof Error) {
 							errorMessage = error.message;
-
-							const apiError = error as TwitterAPIError;
-							if (apiError.response?.body?.errors?.[0]) {
-								errorMessage =
-									apiError.response.body.errors[0].message;
-							}
 						}
 
 						panel.webview.postMessage({
