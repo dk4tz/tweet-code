@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Button } from '../components/Button';
 import { ErrorMessage } from '../components/ErrorMessage';
 import { Header } from '../components/Header';
+import { ImageGenerator } from '../components/ImageGenerator';
 import { useVSCode } from '../contexts/vscode';
 import { TwitterCredentials } from '../types';
 
@@ -24,20 +25,16 @@ export const ComposerPage: React.FC<ComposerPageProps> = ({
 		setIsPosting,
 		setCredentials
 	} = useVSCode();
-	const [text, setText] = useState(code);
 
+	const [text, setText] = useState(code);
 	const CHAR_CEILING = 25000;
 
 	useEffect(() => {
-		const loadInitialCredentials = () => {
-			if (initialCredentials) {
-				setCredentials(initialCredentials);
-			} else {
-				handleLoadCredentials();
-			}
-		};
-
-		loadInitialCredentials();
+		if (initialCredentials) {
+			setCredentials(initialCredentials);
+		} else {
+			handleLoadCredentials();
+		}
 	}, [initialCredentials]);
 
 	const isValid =
@@ -94,7 +91,7 @@ export const ComposerPage: React.FC<ComposerPageProps> = ({
             disabled:bg-neutral-50 dark:disabled:bg-neutral-800
             disabled:cursor-not-allowed
             min-h-[200px] resize-y'
-					placeholder='Enter your tweet content...'
+					placeholder='Enter your tweet...'
 				/>
 
 				<div className='flex items-center justify-between text-sm'>
@@ -111,6 +108,8 @@ export const ComposerPage: React.FC<ComposerPageProps> = ({
 							  ' characters over'}
 					</span>
 				</div>
+
+				<ImageGenerator disabled={isPosting} />
 			</div>
 
 			<ErrorMessage message={error} />

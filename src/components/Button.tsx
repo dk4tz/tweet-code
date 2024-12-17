@@ -4,6 +4,7 @@ interface ButtonProps {
 	onClick: () => void;
 	disabled?: boolean;
 	variant?: 'primary' | 'secondary';
+	className?: string;
 	children: React.ReactNode;
 }
 
@@ -11,10 +12,13 @@ export const Button: React.FC<ButtonProps> = ({
 	onClick,
 	disabled = false,
 	variant = 'secondary',
+	className = null,
 	children
 }) => {
-	const baseStyles =
+	let baseStyles =
 		'px-4 py-2 rounded-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed';
+
+	baseStyles = className ? baseStyles + ' ' + className : baseStyles;
 
 	const variantStyles = {
 		primary: `${
